@@ -1,0 +1,11 @@
+"accounts": [
+
+    "1": {"password":"123",
+        "balance":100,"name":"John",
+        "pin":"1234"},
+
+    "2": {"password":"123",
+        "balance":500,
+        "name":"Daja",
+        "pin":"1234"}
+]
