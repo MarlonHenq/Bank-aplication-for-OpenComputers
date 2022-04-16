@@ -1,19 +1,101 @@
 json = require "dependences/json"
 
-file = io.open("accounts.db.json", "w")
-
 function addAccount(id, name, balance, password, pin)
-    add = {
-        id = id,
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        data = "{\"accounts\":[{\"id\":\"" .. id .. "\",\"name\":\"" .. name .. "\",\"balance\":\"" .. balance .. "\",\"password\":\"" .. password .. "\",\"pin\":\"" .. pin .. "\"}]}"
+        data = json.decode(data)
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    data.accounts[id] = {
         name = name,
         balance = balance,
         password = password,
-        pin = pin
+        pin = pin,
+        id = id
     }
 
-    file:write(json.encode(add) .. ",\n")
+    file = io.open("accounts.db.json", "w")
+    file:write(json.encode(data))
+    file:close()
 end
 
 
-addAccount(1, "John", 100, "123", "1234")
-addAccount(2, "Daja", 500, "123", "1234")
+function getAccount(id)
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        return nil
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return data.accounts[id]
+end
+
+function getAccounts()
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        return nil
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return data.accounts
+end
+
+function updateBalance(id, balance)
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        return nil
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    data.accounts[id].balance = balance
+
+    file = io.open("accounts.db.json", "w")
+    file:write(json.encode(data))
+    file:close()
+end
+
+function numberAccounts()
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        return 0
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return #data.accounts
+end
+
+function nameExists(name)
+    file = io.open("accounts.db.json", "r")
+    data = file:read("*all")
+    if (data == "") then
+        return false
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    for i, v in pairs(data.accounts) do
+        if (v.name == name) then
+            return i
+        end
+    end
+
+    return false
+end
