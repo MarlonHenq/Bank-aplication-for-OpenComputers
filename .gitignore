@@ -1,1 +1,4 @@
+accounts.bd.json
 *.db.json
+*.db
+test.lua
