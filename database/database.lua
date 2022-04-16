@@ -1,1 +1,1 @@
-db = require "crud"
+crud = require "crud"

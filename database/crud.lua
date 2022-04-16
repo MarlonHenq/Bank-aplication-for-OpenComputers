@@ -1,7 +1,8 @@
-json = require "dependences/json"
+-- json = require "dependences/json"
+
 
 function addAccount(id, name, balance, password, pin)
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         data = "{\"accounts\":[{\"id\":\"" .. id .. "\",\"name\":\"" .. name .. "\",\"balance\":\"" .. balance .. "\",\"password\":\"" .. password .. "\",\"pin\":\"" .. pin .. "\"}]}"
@@ -19,14 +20,16 @@ function addAccount(id, name, balance, password, pin)
         id = id
     }
 
-    file = io.open("accounts.db.json", "w")
+    file = io.open(localDBFile, "w")
     file:write(json.encode(data))
     file:close()
+    
+    return true
 end
 
 
 function getAccount(id)
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -39,7 +42,7 @@ function getAccount(id)
 end
 
 function getAccounts()
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -52,7 +55,7 @@ function getAccounts()
 end
 
 function updateBalance(id, balance)
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -63,13 +66,15 @@ function updateBalance(id, balance)
 
     data.accounts[id].balance = balance
 
-    file = io.open("accounts.db.json", "w")
+    file = io.open(localDBFile, "w")
     file:write(json.encode(data))
     file:close()
+
+    return true
 end
 
 function numberAccounts()
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return 0
@@ -82,7 +87,7 @@ function numberAccounts()
 end
 
 function nameExists(name)
-    file = io.open("accounts.db.json", "r")
+    file = io.open(localDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return false
@@ -99,3 +104,7 @@ function nameExists(name)
 
     return false
 end
+
+crud = { _version = "1.0.1" }
+
+return crud
