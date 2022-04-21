@@ -1,1 +1,0 @@
-crud = require "crud"
