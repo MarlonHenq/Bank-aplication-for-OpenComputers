@@ -14,8 +14,8 @@ function transactions(id)
     accounts = getAccounts()
 
     os.execute("clear")
-        print("====================================")
-        print("0 - Exit")
+    print("====================================")
+    print("0 - Exit")
 
     for i = 1, transactionSize do
         prtintsCount = 0
@@ -87,7 +87,7 @@ function transfer(idSender)
 end
 
 function accountLoggedIn(id)
-    ui("Welcome " .. account.name .." | 1 = Transfer, 2 = Lottery, 0 = Exit", id, 2)
+    ui("Welcome " .. account.name .." | 1 = Transfer, 0 = Exit", id, 2)
     op = io.read()
 
     if (op == "1") then
