@@ -1,4 +1,5 @@
 json = require "database/dependences/json"
+require("database/createDB")
 require ("database/crud")
 require ("lottery/lottery")
 require ("front")
@@ -224,5 +225,7 @@ function home()
         end
     end
 end
+
+verifyAndCreateDB()
 
 home()
