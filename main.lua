@@ -18,10 +18,19 @@ function transactions(id)
         print("0 - Exit")
 
     for i = 1, transactionSize do
+        prtintsCount = 0
         if (transactionsLog[i].idReceiver == id ) then
-            print("Transação id: " .. i .. " | Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. transactionsLog[i].idSender .. " | Para: " .. transactionsLog[i].idReceiver)
+            senderAccount = getAccount(transactionsLog[i].idSender)
+            recieverAccount = getAccount(transactionsLog[i].idReceiver)
+            prtintsCount = prtintsCount + 1
+            print("------------------------------------")
+            print("Transação id: " .. i .. " | Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. senderAccount.name .. " | Para: " .. recieverAccount.name)
         elseif(transactionsLog[i].idSender == id) then
-            print("Transação id: " .. i .. "| Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. transactionsLog[i].idSender .. " | Para: " .. transactionsLog[i].idReceiver)
+            senderAccount = getAccount(transactionsLog[i].idSender)
+            recieverAccount = getAccount(transactionsLog[i].idReceiver)
+            prtintsCount = prtintsCount + 1
+            print("------------------------------------")
+            print("Transação id: " .. i .. "| Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. senderAccount.name .. " | Para: " .. recieverAccount.name)
         end
     end
 
