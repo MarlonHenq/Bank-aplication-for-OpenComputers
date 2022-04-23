@@ -7,31 +7,44 @@ localAccountsDBFile = "database/accounts.db.json"
 localTransactionsDBFile = "database/transactions.db.json"
 
 balanceDefault = 500
+transactionsSearchMaxValue = 50
 
 function transactions(id)
     transactionsLog = getTransactions()
     transactionSize = transactionIds()
     accounts = getAccounts()
 
+    firstValue = transactionSize
+    
+    if (transactionSize - transactionsSearchMaxValue > 0) then
+        lastValue = transactionSize - transactionsSearchMaxValue
+    else
+        lastValue = 1
+    end
+
     os.execute("clear")
     print("====================================")
     print("0 - Exit")
-
-    for i = 1, transactionSize do
-        prtintsCount = 0
+    i = firstValue
+    while (i >= lastValue) do
+        printsCount = 0
         if (transactionsLog[i].idReceiver == id ) then
             senderAccount = getAccount(transactionsLog[i].idSender)
             recieverAccount = getAccount(transactionsLog[i].idReceiver)
-            prtintsCount = prtintsCount + 1
+            printsCount = printsCount + 1
             print("------------------------------------")
             print("Transação id: " .. i .. " | Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. senderAccount.name .. " | Para: " .. recieverAccount.name)
         elseif(transactionsLog[i].idSender == id) then
             senderAccount = getAccount(transactionsLog[i].idSender)
             recieverAccount = getAccount(transactionsLog[i].idReceiver)
-            prtintsCount = prtintsCount + 1
+            printsCount = printsCount + 1
             print("------------------------------------")
-            print("Transação id: " .. i .. "| Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. senderAccount.name .. " | Para: " .. recieverAccount.name)
+            print("Transação id: " .. i .. " | Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. senderAccount.name .. " | Para: " .. recieverAccount.name)
         end
+        if (printsCount >= 10) then
+            break
+        end
+        i = i - 1
     end
 
     print("====================================")
