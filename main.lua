@@ -1,8 +1,10 @@
 json = require "database/dependences/json"
 require ("database/crud")
+require ("lottery/lottery")
 require ("front")
 
-localDBFile = "database/accounts.db.json"
+localAccountsDBFile = "database/accounts.db.json"
+localTransactionsDBFile = "database/transactions.db.json"
 
 balanceDefault = 500
 
@@ -42,6 +44,10 @@ function transfer(idSender)
     print(idReceiver)
     updateBalance(idSender, tonumber(getAccount(idSender).balance) - tonumber(value))
     updateBalance(idReceiver, tonumber(getAccount(idReceiver).balance) + tonumber(value))
+    
+    idTransaction = transactionIds() + 1
+    addTransaction(idSender, idReceiver, value, "Transferência", idTransaction)
+    
     ui("Transferência realizada com sucesso", idSender, 4)
     op = io.read()
 
@@ -50,11 +56,14 @@ function transfer(idSender)
 end
 
 function accountLoggedIn(id)
-    ui("Welcome " .. account.name .." | 1 = Transfer, 0 = Exit", id, 2)
+    ui("Welcome " .. account.name .." | 1 = Transfer, 2 = Lottery, 0 = Exit", id, 2)
     op = io.read()
 
     if (op == "1") then
         transfer(id)
+    elseif (op == "2") then
+        --lottery(id)
+        accountLoggedIn(id)
     else
         home()
     end

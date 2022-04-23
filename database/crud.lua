@@ -2,7 +2,7 @@
 
 
 function addAccount(id, name, balance, password, pin)
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         data = "{\"accounts\":[{\"id\":\"" .. id .. "\",\"name\":\"" .. name .. "\",\"balance\":\"" .. balance .. "\",\"password\":\"" .. password .. "\",\"pin\":\"" .. pin .. "\"}]}"
@@ -20,7 +20,7 @@ function addAccount(id, name, balance, password, pin)
         id = id
     }
 
-    file = io.open(localDBFile, "w")
+    file = io.open(localAccountsDBFile, "w")
     file:write(json.encode(data))
     file:close()
     
@@ -29,7 +29,7 @@ end
 
 
 function getAccount(id)
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -42,7 +42,7 @@ function getAccount(id)
 end
 
 function getAccounts()
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -55,7 +55,7 @@ function getAccounts()
 end
 
 function updateBalance(id, balance)
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return nil
@@ -66,7 +66,7 @@ function updateBalance(id, balance)
 
     data.accounts[id].balance = balance
 
-    file = io.open(localDBFile, "w")
+    file = io.open(localAccountsDBFile, "w")
     file:write(json.encode(data))
     file:close()
 
@@ -74,7 +74,7 @@ function updateBalance(id, balance)
 end
 
 function numberAccounts()
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return 0
@@ -87,7 +87,7 @@ function numberAccounts()
 end
 
 function nameExists(name)
-    file = io.open(localDBFile, "r")
+    file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
     if (data == "") then
         return false
@@ -105,6 +105,52 @@ function nameExists(name)
     return false
 end
 
-crud = { _version = "1.0.1" }
+--- transactions ---
+
+function transactionIds()
+    file = io.open(localTransactionsDBFile, "r")
+    data = file:read("*all")
+    if (data == "") then
+        return 0
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return #data.transactions
+
+end
+
+function addTransaction(idSender, idReceiver, amount, massage, idTransaction)
+    file = io.open(localTransactionsDBFile, "r")
+    data = file:read("*all")
+    if (data == "") then
+        data = "{\"transactions\":[{\"idSender\":\"" .. idSender .. "\",\"idReceiver\":\"" .. idReceiver .. "\",\"amount\":\"" .. amount .. "\",\"massage\":\"" .. massage .. "\",\"idTransaction\":\"" .. idTransaction .. "\"}]}"
+        data = json.decode(data)
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    data.transactions[idTransaction] = {
+        idSender = idSender,
+        idReceiver = idReceiver,
+        amount = amount,
+        massage = massage,
+        idTransaction = idTransaction
+    }
+
+    file = io.open(localTransactionsDBFile, "w")
+    file:write(json.encode(data))
+    file:close()
+
+    return true
+end
+
+
+
+
+--- END ---
+crud = { _version = "1.0.2" }
 
 return crud
