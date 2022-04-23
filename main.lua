@@ -8,6 +8,28 @@ localTransactionsDBFile = "database/transactions.db.json"
 
 balanceDefault = 500
 
+function transactions(id)
+    transactionsLog = getTransactions()
+    transactionSize = transactionIds()
+    accounts = getAccounts()
+
+    os.execute("clear")
+        print("====================================")
+        print("0 - Exit")
+
+    for i = 1, transactionSize do
+        if (transactionsLog[i].idReceiver == id ) then
+            print("Transação id: " .. i .. " | Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. transactionsLog[i].idSender .. " | Para: " .. transactionsLog[i].idReceiver)
+        elseif(transactionsLog[i].idSender == id) then
+            print("Transação id: " .. i .. "| Mensagem: " .. transactionsLog[i].massage .. " | Valor: " .. transactionsLog[i].amount .. " | De: " .. transactionsLog[i].idSender .. " | Para: " .. transactionsLog[i].idReceiver)
+        end
+    end
+
+    print("====================================")
+    op = io.read()
+    accountLoggedIn(id)
+end
+
 function transfer(idSender)
     ui("Digite o Nickname do destinatário", idSender, 4)
     NameReceiver = io.read()
@@ -47,7 +69,7 @@ function transfer(idSender)
     
     idTransaction = transactionIds() + 1
     addTransaction(idSender, idReceiver, value, "Transferência", idTransaction)
-    
+
     ui("Transferência realizada com sucesso", idSender, 4)
     op = io.read()
 
@@ -64,6 +86,9 @@ function accountLoggedIn(id)
     elseif (op == "2") then
         --lottery(id)
         accountLoggedIn(id)
+
+    elseif (op == "3") then
+        transactions(id)
     else
         home()
     end

@@ -107,6 +107,32 @@ end
 
 --- transactions ---
 
+function getTransactions()
+    file = io.open(localTransactionsDBFile, "r")
+    data = file:read("*all")
+    if (data == "") then
+        return nil
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return data.transactions
+end
+
+function getTransaction(id)
+    file = io.open(localTransactionsDBFile, "r")
+    data = file:read("*all")
+    if (data == "") then
+        return nil
+    else
+        data = json.decode(data)
+    end
+    file:close()
+
+    return data.transactions[id]
+end
+
 function transactionIds()
     file = io.open(localTransactionsDBFile, "r")
     data = file:read("*all")
