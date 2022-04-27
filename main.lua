@@ -182,9 +182,7 @@ function createAccount()
 
             pin = op
 
-            numberAccounts = numberAccounts()
-
-            id = numberAccounts + 1
+            id = numberAccounts() + 1
 
             value = balanceDefault
 
@@ -229,3 +227,6 @@ end
 verifyAndCreateDB()
 
 home()
+
+-- print(numberAccounts())
+-- print(numberAccounts())

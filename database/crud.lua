@@ -31,25 +31,26 @@ end
 function getAccount(id)
     file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return nil
     else
         data = json.decode(data)
     end
-    file:close()
 
     return data.accounts[id]
 end
 
+
 function getAccounts()
     file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return nil
     else
         data = json.decode(data)
     end
-    file:close()
 
     return data.accounts
 end
@@ -57,12 +58,12 @@ end
 function updateBalance(id, balance)
     file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return nil
     else
         data = json.decode(data)
     end
-    file:close()
 
     data.accounts[id].balance = balance
 
@@ -76,25 +77,25 @@ end
 function numberAccounts()
     file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return 0
     else
         data = json.decode(data)
     end
-    file:close()
-
-    return #data.accounts
+    
+    return tonumber(#data.accounts)
 end
 
 function nameExists(name)
     file = io.open(localAccountsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return false
     else
         data = json.decode(data)
     end
-    file:close()
 
     for i, v in pairs(data.accounts) do
         if (v.name == name) then
@@ -110,12 +111,12 @@ end
 function getTransactions()
     file = io.open(localTransactionsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return nil
     else
         data = json.decode(data)
     end
-    file:close()
 
     return data.transactions
 end
@@ -123,12 +124,12 @@ end
 function getTransaction(id)
     file = io.open(localTransactionsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return nil
     else
         data = json.decode(data)
     end
-    file:close()
 
     return data.transactions[id]
 end
@@ -136,14 +137,14 @@ end
 function transactionIds()
     file = io.open(localTransactionsDBFile, "r")
     data = file:read("*all")
+    file:close()
     if (data == "") then
         return 0
     else
         data = json.decode(data)
     end
-    file:close()
 
-    return #data.transactions
+    return tonumber(#data.transactions)
 
 end
 
