@@ -8,7 +8,7 @@ localAccountsDBFile = "database/accounts.db.json"
 localTransactionsDBFile = "database/transactions.db.json"
 
 balanceDefault = 500 -- Initial value in account balance
-transactionsSearchMaxValue = 50 -- max value for transactions search
+transactionsSearchMaxValue = 100 -- max value for transactions search
 
 function transactions(id)
     transactionsLog = getTransactions()
