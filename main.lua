@@ -227,6 +227,3 @@ end
 verifyAndCreateDB()
 
 home()
-
--- print(numberAccounts())
--- print(numberAccounts())
