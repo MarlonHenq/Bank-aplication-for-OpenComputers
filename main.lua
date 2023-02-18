@@ -1,7 +1,9 @@
 json = require "database/dependences/json"
-require("database/createDB")
+md5 = require("dependences/md5")
+require ("database/createDB")
 require ("database/crud")
 require ("lottery/lottery")
+require ("lottery/LFront")
 require ("front")
 
 localAccountsDBFile = "database/accounts.db.json"
@@ -107,8 +109,8 @@ function accountLoggedIn(id)
     if (op == "1") then
         transfer(id)
     elseif (op == "2") then
-        --lottery(id)
-        accountLoggedIn(id)
+        lottery(id)
+        --accountLoggedIn(id)
 
     elseif (op == "3") then
         transactions(id)
@@ -142,7 +144,7 @@ function login()
 
         account = getAccount(id)
 
-        if (op == account.password) then
+        if (md5.sumhexa(op) == account.password) then
             accountLoggedIn(id)
         else
             ui("Wrong password | 0 = Exit, 1 = Try again", null, 0)
@@ -171,7 +173,7 @@ function createAccount()
                 home()
             end
 
-            senha = op
+            senha = md5.sumhexa(op)
 
             ui("Enter your pin", null, 0)
             op = io.read()
@@ -180,7 +182,7 @@ function createAccount()
                 home()
             end
 
-            pin = op
+            pin = md5.sumhexa(op)
 
             id = numberAccounts() + 1
 
