@@ -12,6 +12,8 @@ localTransactionsDBFile = "database/transactions.db.json"
 balanceDefault = 500 -- Initial value in account balance
 transactionsSearchMaxValue = 100 -- max value for transactions search
 
+bankKey = " " -- Concatenate with password to create md5 hash 
+
 function transactions(id)
     transactionsLog = getTransactions()
     transactionSize = transactionIds()
@@ -144,7 +146,7 @@ function login()
 
         account = getAccount(id)
 
-        if (md5.sumhexa(op) == account.password) then
+        if (md5.sumhexa(op .. bankKey) == account.password) then
             accountLoggedIn(id)
         else
             ui("Wrong password | 0 = Exit, 1 = Try again", null, 0)
@@ -173,7 +175,7 @@ function createAccount()
                 home()
             end
 
-            senha = md5.sumhexa(op)
+            senha = md5.sumhexa(op .. bankKey)
 
             ui("Enter your pin", null, 0)
             op = io.read()
@@ -182,7 +184,7 @@ function createAccount()
                 home()
             end
 
-            pin = md5.sumhexa(op)
+            pin = md5.sumhexa(op .. bankKey)
 
             id = numberAccounts() + 1
 
