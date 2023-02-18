@@ -214,7 +214,7 @@ end
 
 function home()
     while true do
-        ui("Welcome to the bank!\nSelect your operation", null, 1)
+        ui("Welcome to the OpenLua bank!\nSelect your operation", null, 1)
         op = io.read()
 
         if (op == "1") then
